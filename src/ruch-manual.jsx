@@ -85,37 +85,152 @@ const LOCK = {ak:[1,4,7],pn:[0,3,6],mw:[2,5]}
 
 const CSS = `
   *{box-sizing:border-box;margin:0;padding:0}
-  html,body{background:#F7F3EC}
-  @keyframes fadeUp{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
+  html,body{background:#F7F3EC;cursor:none}
+  a,button,[role=button],[style*="cursor:pointer"]{cursor:none}
+
+  /* ── Keyframes ── */
+  @keyframes fadeUp{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:translateY(0)}}
   @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-  @keyframes scaleUp{from{opacity:0;transform:scale(.97) translateY(8px)}to{opacity:1;transform:scale(1) translateY(0)}}
-  @keyframes shimmer{0%,100%{opacity:.5}50%{opacity:1}}
+  @keyframes scaleUp{from{opacity:0;transform:scale(.96) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+  @keyframes clipUp{from{clip-path:inset(100% 0 0 0);opacity:0;transform:translateY(16px)}to{clip-path:inset(0% 0 0 0);opacity:1;transform:translateY(0)}}
+  @keyframes lineGrow{from{transform:scaleX(0);transform-origin:left}to{transform:scaleX(1);transform-origin:left}}
+  @keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+  @keyframes floatSlow{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-14px) rotate(3deg)}}
+  @keyframes gradShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+  @keyframes glowPulse{0%,100%{box-shadow:0 0 0 0 rgba(13,84,66,.4)}50%{box-shadow:0 0 0 10px rgba(13,84,66,0)}}
+  @keyframes svgPulseRing{0%{r:0;opacity:.7}100%{r:28;opacity:0}}
+  @keyframes shimmerSlide{0%{background-position:-200% 0}100%{background-position:200% 0}}
+  @keyframes counterUp{from{opacity:0;transform:translateY(20px) scale(.8)}to{opacity:1;transform:translateY(0) scale(1)}}
+  @keyframes cardIn{from{opacity:0;transform:translateY(28px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+  @keyframes cursorScale{from{transform:translate(-50%,-50%) scale(.5);opacity:0}to{transform:translate(-50%,-50%) scale(1);opacity:1}}
+  @keyframes borderRotate{from{--angle:0deg}to{--angle:360deg}}
+  @keyframes geoPulse{0%,100%{opacity:.06;transform:scale(1) rotate(0deg)}50%{opacity:.12;transform:scale(1.08) rotate(8deg)}}
+  @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @keyframes progressAnim{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+
+  /* ── Hero text clip reveals ── */
+  .clip0{animation:clipUp .75s cubic-bezier(.22,1,.36,1) both}
+  .clip1{animation:clipUp .75s .1s cubic-bezier(.22,1,.36,1) both}
+  .clip2{animation:clipUp .75s .2s cubic-bezier(.22,1,.36,1) both}
+  .clip3{animation:clipUp .75s .33s cubic-bezier(.22,1,.36,1) both}
+  .clip4{animation:clipUp .75s .48s cubic-bezier(.22,1,.36,1) both}
+  .clip5{animation:clipUp .75s .63s cubic-bezier(.22,1,.36,1) both}
+
+  /* ── Legacy ── */
   .h0{animation:fadeUp .8s cubic-bezier(.22,1,.36,1) both}
   .h1{animation:fadeUp .8s .12s cubic-bezier(.22,1,.36,1) both}
   .h2{animation:fadeUp .8s .24s cubic-bezier(.22,1,.36,1) both}
   .h3{animation:fadeUp .8s .38s cubic-bezier(.22,1,.36,1) both}
   .h4{animation:fadeUp .8s .52s cubic-bezier(.22,1,.36,1) both}
-  .fade-in{opacity:0;transform:translateY(18px);transition:opacity .65s ease,transform .65s ease}
+
+  /* ── Scroll-triggered fades ── */
+  .fade-in{opacity:0;transform:translateY(20px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
   .fade-in.vis{opacity:1;transform:none}
-  .rm-btn{transition:all .18s cubic-bezier(.22,1,.36,1);cursor:pointer;outline:none;border:none}
+  .fade-in.vis.d1{transition-delay:.08s}
+  .fade-in.vis.d2{transition-delay:.16s}
+  .fade-in.vis.d3{transition-delay:.24s}
+  .fade-in.vis.d4{transition-delay:.32s}
+  .fade-in.vis.d5{transition-delay:.40s}
+  .fade-in.vis.d6{transition-delay:.48s}
+
+  /* ── Staggered card grid ── */
+  .svc-card{opacity:0;transform:translateY(28px) scale(.97);transition:opacity .6s cubic-bezier(.22,1,.36,1),transform .6s cubic-bezier(.22,1,.36,1),box-shadow .22s,border-color .22s}
+  .svc-card.vis{opacity:1;transform:none}
+  .svc-card.vis.d1{transition-delay:.06s}
+  .svc-card.vis.d2{transition-delay:.12s}
+  .svc-card.vis.d3{transition-delay:.18s}
+  .svc-card.vis.d4{transition-delay:.24s}
+  .svc-card.vis.d5{transition-delay:.30s}
+  .svc-card.vis.d6{transition-delay:.36s}
+  .svc-card:hover{transform:translateY(-6px) scale(1.01)!important;box-shadow:0 24px 56px rgba(13,84,66,.16)!important;border-color:rgba(13,84,66,.3)!important}
+
+  /* ── Therapist tilt cards ── */
+  .th-card{opacity:0;transform:translateY(32px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
+  .th-card.vis{opacity:1;transform:none}
+  .th-card.vis.d1{transition-delay:.1s}
+  .th-card.vis.d2{transition-delay:.2s}
+  .th-card.vis.d3{transition-delay:.3s}
+  .th-card-inner{transition:transform .3s cubic-bezier(.22,1,.36,1),box-shadow .3s}
+  .th-card:hover .th-card-inner{transform:perspective(900px) rotateY(-3deg) rotateX(2deg) scale(1.02);box-shadow:0 28px 64px rgba(13,84,66,.2)!important}
+  .th-photo-overlay{opacity:0;transition:opacity .35s}
+  .th-card:hover .th-photo-overlay{opacity:1}
+
+  /* ── Buttons ── */
+  .rm-btn{transition:all .2s cubic-bezier(.22,1,.36,1);cursor:none;outline:none;border:none;position:relative;overflow:hidden}
+  .rm-btn::after{content:"";position:absolute;inset:0;background:rgba(255,255,255,.0);transition:background .2s}
   .rm-btn:hover{transform:translateY(-2px)}
+  .rm-btn:hover::after{background:rgba(255,255,255,.08)}
   .rm-btn:active{transform:scale(.97)}
-  .card-hov{transition:transform .2s cubic-bezier(.22,1,.36,1),box-shadow .2s;cursor:pointer}
-  .card-hov:hover{transform:translateY(-5px);box-shadow:0 18px 48px rgba(13,84,66,.14)!important}
-  input,textarea{outline:none;font-family:inherit}
-  input:focus,textarea:focus{border-color:#0D5442!important}
-  ::-webkit-scrollbar{width:5px}
-  ::-webkit-scrollbar-thumb{background:rgba(13,84,66,.2);border-radius:99px}
-  .slot-btn{transition:all .13s;cursor:pointer}
-  .slot-btn:not([disabled]):hover{background:#0D5442!important;color:#fff!important}
-  .nlink{cursor:pointer;transition:color .15s}
+  .glow-btn{box-shadow:0 4px 20px rgba(13,84,66,.3);transition:all .2s cubic-bezier(.22,1,.36,1)}
+  .glow-btn:hover{box-shadow:0 8px 36px rgba(13,84,66,.48)!important;transform:translateY(-3px)!important}
+  .gold-btn:hover{box-shadow:0 8px 36px rgba(200,150,60,.55)!important;transform:translateY(-3px)!important}
+
+  /* ── Shimmer card ── */
+  .shimmer-card{position:relative;overflow:hidden}
+  .shimmer-card::before{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.22) 50%,transparent 60%);background-size:200% 100%;opacity:0;transition:opacity .2s;z-index:1;pointer-events:none}
+  .shimmer-card:hover::before{opacity:1;animation:shimmerSlide .7s ease}
+
+  /* ── Nav link ── */
+  .nlink{cursor:none;transition:color .15s;position:relative}
+  .nlink::after{content:"";position:absolute;bottom:-2px;left:0;right:0;height:1.5px;background:#0D5442;transform:scaleX(0);transform-origin:left;transition:transform .25s cubic-bezier(.22,1,.36,1)}
   .nlink:hover{color:#0D5442!important}
-  .photo-img{transition:transform .55s cubic-bezier(.22,1,.36,1)}
-  .photo-img:hover{transform:scale(1.04)}
+  .nlink:hover::after{transform:scaleX(1)}
+
+  /* ── Photos ── */
+  .photo-img{transition:transform .6s cubic-bezier(.22,1,.36,1),filter .3s}
+  .photo-img:hover{transform:scale(1.06)}
+
+  /* ── Inputs ── */
+  input,textarea{outline:none;font-family:inherit}
+  input:focus,textarea:focus{border-color:#0D5442!important;box-shadow:0 0 0 3px rgba(13,84,66,.1)!important}
+
+  /* ── Scrollbar ── */
+  ::-webkit-scrollbar{width:4px}
+  ::-webkit-scrollbar-thumb{background:rgba(13,84,66,.25);border-radius:99px}
+
+  /* ── Slot buttons ── */
+  .slot-btn{transition:all .15s;cursor:none}
+  .slot-btn:not([disabled]):hover{background:#0D5442!important;color:#fff!important;transform:scale(1.04)}
+
+  /* ── Floating geo shapes ── */
+  .geo{animation:geoPulse 7s ease-in-out infinite;pointer-events:none}
+  .geo1{animation-delay:0s}
+  .geo2{animation-delay:2.5s}
+  .geo3{animation-delay:5s}
+
+  /* ── Badge float ── */
+  .badge-float{animation:floatY 4s ease-in-out infinite}
+  .badge-float2{animation:floatY 4.8s 1.2s ease-in-out infinite}
+
+  /* ── Marquee ── */
+  .marquee-track{display:flex;gap:0;animation:marquee 22s linear infinite}
+  .marquee-track:hover{animation-play-state:paused}
+
+  /* ── Line anim ── */
+  .line-anim{animation:lineGrow .7s cubic-bezier(.22,1,.36,1) both}
+
+  /* ── Stat counters ── */
+  .stat-val{animation:counterUp .6s cubic-bezier(.22,1,.36,1) both}
+  .stat-val.d1{animation-delay:.55s}
+  .stat-val.d2{animation-delay:.7s}
+  .stat-val.d3{animation-delay:.85s}
+
+  /* ── Grain overlay ── */
+  .grain::after{content:"";position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;opacity:.35;z-index:1}
+
+  /* ── Custom cursor ── */
+  #rm-cursor{position:fixed;width:12px;height:12px;border-radius:50%;background:#0D5442;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .05s,width .2s,height .2s,background .2s;mix-blend-mode:multiply;animation:cursorScale .3s ease both}
+  #rm-cursor-ring{position:fixed;width:36px;height:36px;border-radius:50%;border:1.5px solid rgba(13,84,66,.45);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:left .12s cubic-bezier(.22,1,.36,1),top .12s cubic-bezier(.22,1,.36,1),width .2s,height .2s,border-color .2s}
+  .cursor-big #rm-cursor{width:7px;height:7px;background:#0A3D30}
+  .cursor-big #rm-cursor-ring{width:50px;height:50px;border-color:rgba(13,84,66,.3)}
 `
 
 export default function RuchManual() {
   const [scrollY,setScrollY]   = useState(0)
+  const [scrollPct,setScrollPct] = useState(0)
+  const [curX,setCurX]         = useState(-100)
+  const [curY,setCurY]         = useState(-100)
+  const [curBig,setCurBig]     = useState(false)
   const [selParts,setSelParts] = useState([])
   const [hov,setHov]           = useState(null)
   const [bookOpen,setBookOpen] = useState(false)
@@ -132,16 +247,36 @@ export default function RuchManual() {
   const TH = getTherapists()
 
   useEffect(() => {
-    const h = () => setScrollY(window.scrollY)
+    const h = () => {
+      setScrollY(window.scrollY)
+      const max = document.documentElement.scrollHeight - window.innerHeight
+      setScrollPct(max > 0 ? window.scrollY / max : 0)
+    }
     window.addEventListener("scroll", h, {passive:true})
     return () => window.removeEventListener("scroll", h)
   },[])
 
   useEffect(() => {
+    const m = e => { setCurX(e.clientX); setCurY(e.clientY) }
+    const over = e => {
+      const el = e.target.closest("button,[role=button],[style*='cursor'],.rm-btn,.nlink,.card-hov,.svc-card,.th-card,.slot-btn")
+      setCurBig(!!el)
+    }
+    window.addEventListener("mousemove", m)
+    window.addEventListener("mouseover", over)
+    return () => { window.removeEventListener("mousemove", m); window.removeEventListener("mouseover", over) }
+  },[])
+
+  useEffect(() => {
     const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => { if(e.isIntersecting) setVis(v=>({...v,[e.target.id]:true})) })
-    },{threshold:0.08})
-    document.querySelectorAll(".fade-in").forEach(el => { if(el.id) obs.observe(el) })
+      entries.forEach(e => {
+        if(e.isIntersecting){
+          e.target.classList.add("vis")
+          if(e.target.id) setVis(v=>({...v,[e.target.id]:true}))
+        }
+      })
+    },{threshold:0.06})
+    document.querySelectorAll(".fade-in,.svc-card,.th-card").forEach(el => obs.observe(el))
     return () => obs.disconnect()
   },[])
 
@@ -179,9 +314,19 @@ export default function RuchManual() {
   const visStyle = Object.keys(vis).map(id => `#${id}.fade-in{opacity:1;transform:none}`).join("")
 
   return (
-    <div style={{fontFamily:SS,background:C.cr,color:C.ch,minHeight:"100vh",overflowX:"hidden"}}>
+    <div style={{fontFamily:SS,background:C.cr,color:C.ch,minHeight:"100vh",overflowX:"hidden"}}
+      className={curBig ? "cursor-big" : ""}>
       <style>{CSS}</style>
       <style>{visStyle}</style>
+
+      {/* ── Custom cursor ── */}
+      <div id="rm-cursor" style={{left:curX,top:curY}}/>
+      <div id="rm-cursor-ring" style={{left:curX,top:curY}}/>
+
+      {/* ── Scroll progress bar ── */}
+      <div style={{position:"fixed",top:0,left:0,right:0,height:2,zIndex:60,pointerEvents:"none",background:"rgba(13,84,66,.08)"}}>
+        <div style={{height:"100%",background:`linear-gradient(90deg,${C.g},${C.gl})`,width:`${scrollPct*100}%`,transition:"width .1s linear",transformOrigin:"left",boxShadow:"0 0 8px rgba(13,84,66,.4)"}}/>
+      </div>
 
       {/* ══ NAVBAR ══════════════════════════════════════════════ */}
       <nav style={{
@@ -194,7 +339,7 @@ export default function RuchManual() {
         backdropFilter:"blur(16px)",
         transition:"height .3s cubic-bezier(.22,1,.36,1), box-shadow .3s",
       }}>
-        <div style={{display:"flex",alignItems:"center",gap:11,cursor:"pointer"}}
+        <div style={{display:"flex",alignItems:"center",gap:11,cursor:"none"}}
           onClick={()=>window.scrollTo({top:0,behavior:"smooth"})}>
           <img src={IMG_LOGO} alt="Ruch Manual" style={{height:navScrolled?40:50,width:"auto",transition:"height .3s",objectFit:"contain"}}/>
         </div>
@@ -217,37 +362,46 @@ export default function RuchManual() {
       {/* ══ HERO ════════════════════════════════════════════════ */}
       <section style={{
         minHeight:"100vh",display:"flex",alignItems:"center",
-        background:`linear-gradient(150deg, ${C.cr} 50%, #D5EBE0 100%)`,
+        background:"linear-gradient(150deg,#F7F3EC 0%,#EDF6F1 40%,#F2EFE8 70%,#D5EBE0 100%)",
+        backgroundSize:"300% 300%",animation:"gradShift 14s ease infinite",
         padding:"96px clamp(16px,4vw,56px) 64px",
         position:"relative",overflow:"hidden",
       }}>
-        <div style={{position:"absolute",right:-160,top:-160,width:640,height:640,borderRadius:"50%",border:"1px solid rgba(13,84,66,.06)",pointerEvents:"none"}}/>
-        <div style={{position:"absolute",right:-60,top:-60,width:420,height:420,borderRadius:"50%",border:"1px solid rgba(13,84,66,.04)",pointerEvents:"none"}}/>
+        {/* Grain overlay */}
+        <div className="grain" style={{position:"absolute",inset:0,pointerEvents:"none",zIndex:0}}/>
 
-        <div style={{maxWidth:1140,margin:"0 auto",width:"100%",display:"grid",gridTemplateColumns:"1fr 1fr",gap:"clamp(40px,6vw,96px)",alignItems:"center"}}>
+        {/* Geometric floating shapes */}
+        <div className="geo geo1" style={{position:"absolute",right:"8%",top:"12%",width:220,height:220,borderRadius:"30%",border:"1.5px solid rgba(13,84,66,.09)",transform:"rotate(15deg)"}}/>
+        <div className="geo geo2" style={{position:"absolute",right:"14%",top:"18%",width:140,height:140,borderRadius:"30%",border:"1px solid rgba(13,84,66,.06)",transform:"rotate(38deg)"}}/>
+        <div className="geo geo3" style={{position:"absolute",left:"-4%",bottom:"22%",width:180,height:180,borderRadius:"50%",border:"1px solid rgba(13,84,66,.05)"}}/>
+        <div style={{position:"absolute",right:"2%",bottom:"8%",width:90,height:90,background:`radial-gradient(circle,rgba(200,150,60,.12),transparent)`,borderRadius:"50%",filter:"blur(20px)",pointerEvents:"none"}}/>
+
+        <div style={{maxWidth:1140,margin:"0 auto",width:"100%",display:"grid",gridTemplateColumns:"1fr 1fr",gap:"clamp(40px,6vw,96px)",alignItems:"center",position:"relative",zIndex:1}}>
           <div>
-            <div className="h0" style={{display:"flex",alignItems:"center",gap:9,marginBottom:28}}>
-              <div style={{width:36,height:1.5,background:C.g,borderRadius:99}}/>
+            <div className="clip0" style={{display:"flex",alignItems:"center",gap:9,marginBottom:28}}>
+              <div className="line-anim" style={{width:36,height:1.5,background:C.g,borderRadius:99}}/>
               <span style={{fontSize:11,fontWeight:700,letterSpacing:".14em",textTransform:"uppercase",color:C.g}}>Gabinet premium · Kraków</span>
             </div>
-            <h1 className="h1" style={{fontFamily:SF,fontSize:"clamp(38px,5vw,62px)",fontWeight:600,lineHeight:1.1,color:C.ch,marginBottom:24,letterSpacing:"-.025em"}}>
-              Ruch, który<br/>przywraca<br/><span style={{color:C.g}}>sprawność</span>
+            <h1 style={{fontFamily:SF,fontSize:"clamp(38px,5vw,62px)",fontWeight:600,lineHeight:1.1,color:C.ch,marginBottom:24,letterSpacing:"-.025em"}}>
+              <div className="clip1" style={{overflow:"hidden",paddingBottom:4}}>Ruch, który</div>
+              <div className="clip2" style={{overflow:"hidden",paddingBottom:4}}>przywraca</div>
+              <div className="clip3" style={{overflow:"hidden",paddingBottom:4,color:C.g}}>sprawność</div>
             </h1>
-            <p className="h2" style={{fontSize:16.5,color:C.mu,lineHeight:1.72,maxWidth:460,marginBottom:38}}>
+            <p className="clip4" style={{fontSize:16.5,color:C.mu,lineHeight:1.72,maxWidth:460,marginBottom:38}}>
               Zaawansowana fizjoterapia manualna i rehabilitacja. Zacznij od kliknięcia obszaru bólu na mapie ciała — system dopasuje usługę i terapeutę.
             </p>
-            <div className="h3" style={{display:"flex",gap:12,marginBottom:52,flexWrap:"wrap"}}>
-              <button className="rm-btn" onClick={()=>openBook()} style={{background:C.g,color:"#fff",borderRadius:10,padding:"13px 30px",fontSize:14.5,fontWeight:700,display:"flex",alignItems:"center",gap:8,boxShadow:"0 4px 20px rgba(13,84,66,.3)"}}>
+            <div className="clip5" style={{display:"flex",gap:12,marginBottom:52,flexWrap:"wrap"}}>
+              <button className="rm-btn glow-btn" onClick={()=>openBook()} style={{background:C.g,color:"#fff",borderRadius:10,padding:"13px 30px",fontSize:14.5,fontWeight:700,display:"flex",alignItems:"center",gap:8}}>
                 Umów wizytę <ArrowRight size={15}/>
               </button>
-              <button className="rm-btn" onClick={()=>go("body-map")} style={{background:"transparent",color:C.g,border:`1.5px solid ${C.g}`,borderRadius:10,padding:"13px 30px",fontSize:14.5,fontWeight:700,cursor:"pointer"}}>
+              <button className="rm-btn" onClick={()=>go("body-map")} style={{background:"transparent",color:C.g,border:`1.5px solid ${C.g}`,borderRadius:10,padding:"13px 30px",fontSize:14.5,fontWeight:700}}>
                 Wskaż problem
               </button>
             </div>
             <div className="h4" style={{display:"flex",gap:"clamp(24px,4vw,44px)",paddingTop:28,borderTop:`1px solid ${C.bd}`}}>
-              {[["1 200+","pacjentów"],["8 lat","doświadczenia"],["3","specjalistów"]].map(([v,l])=>(
+              {[["1 200+","pacjentów","d1"],["8 lat","doświadczenia","d2"],["3","specjalistów","d3"]].map(([v,l,d])=>(
                 <div key={l}>
-                  <div style={{fontFamily:SF,fontSize:28,fontWeight:600,color:C.ch,letterSpacing:"-.02em"}}>{v}</div>
+                  <div className={`stat-val ${d}`} style={{fontFamily:SF,fontSize:28,fontWeight:600,color:C.ch,letterSpacing:"-.02em"}}>{v}</div>
                   <div style={{fontSize:11,color:C.mu,letterSpacing:".06em",textTransform:"uppercase",marginTop:2}}>{l}</div>
                 </div>
               ))}
@@ -260,23 +414,27 @@ export default function RuchManual() {
               width:"clamp(260px,30vw,400px)",height:"clamp(360px,42vw,540px)",
               borderRadius:"42% 58% 52% 48% / 48% 44% 56% 52%",
               overflow:"hidden",
-              boxShadow:"0 24px 72px rgba(13,84,66,.22), 0 4px 16px rgba(13,84,66,.1)",
-              border:"3px solid rgba(255,255,255,.8)",
+              boxShadow:"0 32px 88px rgba(13,84,66,.28), 0 4px 16px rgba(13,84,66,.1)",
+              border:"3px solid rgba(255,255,255,.85)",
+              position:"relative",
             }}>
               <img src={IMG_BACK} alt="fizjoterapia manualna" style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"center top"}}/>
+              <div style={{position:"absolute",inset:0,background:"linear-gradient(to bottom,transparent 65%,rgba(13,84,66,.12))",pointerEvents:"none"}}/>
             </div>
             {/* Badges */}
-            <div style={{position:"absolute",top:"9%",left:"-4%",background:"#fff",borderRadius:14,padding:"10px 16px",boxShadow:"0 8px 28px rgba(0,0,0,.1)",border:`0.5px solid ${C.bd}`,animation:"fadeUp .8s .6s both"}}>
+            <div className="badge-float" style={{position:"absolute",top:"9%",left:"-4%",background:"#fff",borderRadius:14,padding:"10px 16px",boxShadow:"0 12px 36px rgba(0,0,0,.12)",border:`0.5px solid ${C.bd}`,animation:"clipUp .75s .7s both"}}>
               <div style={{fontSize:11,fontWeight:700,color:C.g,marginBottom:1}}>✓ Wolny termin dziś</div>
               <div style={{fontSize:10.5,color:C.mu}}>15:30 — Anna Kowalska</div>
             </div>
-            <div style={{position:"absolute",bottom:"13%",right:"-7%",background:"#fff",borderRadius:14,padding:"10px 16px",boxShadow:"0 8px 28px rgba(0,0,0,.1)",border:`0.5px solid ${C.bd}`,animation:"fadeUp .8s .78s both"}}>
+            <div className="badge-float2" style={{position:"absolute",bottom:"13%",right:"-7%",background:"#fff",borderRadius:14,padding:"10px 16px",boxShadow:"0 12px 36px rgba(0,0,0,.12)",border:`0.5px solid ${C.bd}`,animation:"clipUp .75s .88s both"}}>
               <div style={{display:"flex",alignItems:"center",gap:4,marginBottom:1}}>
                 <Star size={11} fill={C.au} color={C.au}/>
                 <span style={{fontSize:12,fontWeight:700,color:C.ch}}>4.9</span>
               </div>
               <div style={{fontSize:10.5,color:C.mu}}>128 opinii</div>
             </div>
+            {/* Decorative ring */}
+            <div style={{position:"absolute",inset:-16,borderRadius:"42% 58% 52% 48% / 48% 44% 56% 52%",border:"1px solid rgba(13,84,66,.1)",pointerEvents:"none",animation:"geoPulse 6s ease-in-out infinite"}}/>
           </div>
         </div>
       </section>
@@ -289,6 +447,22 @@ export default function RuchManual() {
             <div style={{position:"absolute",inset:0,background:"linear-gradient(to bottom,transparent 55%,rgba(13,84,66,.25))",pointerEvents:"none"}}/>
           </div>
         ))}
+      </div>
+
+      {/* ══ MARQUEE TRUST BAR ════════════════════════════════════ */}
+      <div style={{background:C.g,padding:"13px 0",overflow:"hidden",position:"relative"}}>
+        <div className="marquee-track">
+          {[...Array(2)].map((_,ri)=>(
+            <div key={ri} style={{display:"flex",gap:0,flexShrink:0}}>
+              {["Fizjoterapia manualna","Certyfikowani terapeuci","Rezerwacja online","Kinesiotaping","Body-Map Triage","Rehabilitacja post-op","Suche igłowanie","Terapia dna miednicy","Gabinet premium Kraków"].map(txt=>(
+                <span key={txt} style={{display:"inline-flex",alignItems:"center",gap:18,padding:"0 28px",fontSize:12.5,fontWeight:600,color:"rgba(255,255,255,.85)",letterSpacing:".04em",whiteSpace:"nowrap"}}>
+                  <span style={{width:4,height:4,borderRadius:"50%",background:"rgba(255,255,255,.4)",display:"inline-block",flexShrink:0}}/>
+                  {txt}
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* ══ BODY MAP ════════════════════════════════════════════ */}
@@ -326,15 +500,23 @@ export default function RuchManual() {
 
                   {SVG_ZONES.map(({id,el:El,p})=>{
                     const sel=selParts.includes(id), isHov=hov===id
+                    const cx = p.cx ?? (p.x + (p.width??0)/2)
+                    const cy = p.cy ?? (p.y + (p.height??0)/2)
                     return (
                       <g key={id} onClick={()=>togglePart(id)}
                         onMouseEnter={()=>setHov(id)} onMouseLeave={()=>setHov(null)}
-                        style={{cursor:"pointer"}}>
+                        style={{cursor:"none"}}>
+                        {sel && (
+                          <circle cx={cx} cy={cy} r="0" fill="none" stroke="rgba(13,84,66,.5)" strokeWidth="2">
+                            <animate attributeName="r" from="0" to="26" dur="1.2s" repeatCount="indefinite"/>
+                            <animate attributeName="opacity" from="0.6" to="0" dur="1.2s" repeatCount="indefinite"/>
+                          </circle>
+                        )}
                         <El {...p}
                           fill={sel?"rgba(13,84,66,.55)":isHov?"rgba(13,84,66,.28)":"transparent"}
                           stroke={(sel||isHov)?"#0D5442":"transparent"}
                           strokeWidth={sel?2.5:2}
-                          style={{transition:"fill .14s,stroke .14s"}}
+                          style={{transition:"fill .14s,stroke .14s",filter:sel?"drop-shadow(0 0 6px rgba(13,84,66,.4))":""}}
                         />
                       </g>
                     )
@@ -350,7 +532,7 @@ export default function RuchManual() {
                 <div style={{display:"flex",flexWrap:"wrap",gap:5,justifyContent:"center",marginTop:8,maxWidth:220}}>
                   {selParts.map(id=>(
                     <button key={id} onClick={()=>togglePart(id)} className="rm-btn"
-                      style={{background:C.gp,color:C.g,border:`0.5px solid ${C.g}`,borderRadius:99,padding:"3px 10px",fontSize:11,fontWeight:600,cursor:"pointer",display:"flex",alignItems:"center",gap:4}}>
+                      style={{background:C.gp,color:C.g,border:`0.5px solid ${C.g}`,borderRadius:99,padding:"3px 10px",fontSize:11,fontWeight:600,cursor:"none",display:"flex",alignItems:"center",gap:4}}>
                       {BP[id]} <X size={9}/>
                     </button>
                   ))}
@@ -420,11 +602,12 @@ export default function RuchManual() {
             </div>
             <h2 style={{fontFamily:SF,fontSize:"clamp(30px,4vw,44px)",fontWeight:600,color:C.ch,letterSpacing:"-.02em"}}>Nasze usługi</h2>
           </div>
-          <div id="svc-grid" className="fade-in" style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:16,alignItems:"stretch"}}>
-            {SVCS.map(svc=>(
-              <div key={svc.id} className="card-hov"
-                style={{background:C.wh,borderRadius:18,padding:"26px",border:`0.5px solid ${C.bd}`,display:"flex",flexDirection:"column",gap:10}}>
-                <div style={{width:48,height:48,borderRadius:13,background:C.gp,display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,fontWeight:800,color:C.g,fontFamily:SF,flexShrink:0}}>{svc.abbr}</div>
+          <div id="svc-grid" style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:16,alignItems:"stretch"}}>
+            {SVCS.map((svc,i)=>(
+              <div key={svc.id} className={`svc-card shimmer-card d${i+1}`}
+                onClick={()=>openBook(svc.id)}
+                style={{background:C.wh,borderRadius:18,padding:"26px",border:`0.5px solid ${C.bd}`,display:"flex",flexDirection:"column",gap:10,cursor:"none",position:"relative"}}>
+                <div style={{width:48,height:48,borderRadius:13,background:C.gp,display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,fontWeight:800,color:C.g,fontFamily:SF,flexShrink:0,transition:"transform .2s"}}>{svc.abbr}</div>
                 <div style={{fontFamily:SF,fontSize:17,fontWeight:600,color:C.ch}}>{svc.name}</div>
                 <div style={{fontSize:13,color:C.mu,lineHeight:1.7,flex:1}}>{svc.desc}</div>
                 <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",paddingTop:12,borderTop:`0.5px solid ${C.bd}`}}>
@@ -434,8 +617,8 @@ export default function RuchManual() {
                   </div>
                   <div style={{display:"flex",alignItems:"center",gap:4,fontSize:12,color:C.mu}}><Clock size={11}/> {svc.dur} min</div>
                 </div>
-                <button className="rm-btn" onClick={()=>openBook(svc.id)}
-                  style={{width:"100%",padding:"10px",background:C.gp,color:C.g,border:`0.5px solid ${C.g}`,borderRadius:9,fontSize:13,fontWeight:700,cursor:"pointer"}}>
+                <button className="rm-btn" onClick={e=>{e.stopPropagation();openBook(svc.id)}}
+                  style={{width:"100%",padding:"10px",background:C.gp,color:C.g,border:`0.5px solid ${C.g}`,borderRadius:9,fontSize:13,fontWeight:700}}>
                   Umów wizytę →
                 </button>
               </div>
@@ -447,14 +630,21 @@ export default function RuchManual() {
       {/* ══ QUOTE BAND ══════════════════════════════════════════ */}
       <div id="quote" className="fade-in" style={{display:"grid",gridTemplateColumns:"1fr 1fr",minHeight:300,overflow:"hidden"}}>
         <div style={{overflow:"hidden",position:"relative"}}>
-          <img src={IMG_KNEE} alt="terapia kolana" className="photo-img" style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"center",filter:"brightness(.82) saturate(1.1)"}}/>
+          <img src={IMG_KNEE} alt="terapia kolana" className="photo-img" style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"center",filter:"brightness(.78) saturate(1.15)"}}/>
+          <div style={{position:"absolute",inset:0,background:"linear-gradient(90deg,transparent 60%,rgba(13,84,66,.35))",pointerEvents:"none"}}/>
         </div>
-        <div style={{background:C.g,display:"flex",flexDirection:"column",justifyContent:"center",padding:"clamp(32px,5vw,72px)"}}>
-          <div style={{fontSize:44,color:"rgba(255,255,255,.25)",fontFamily:SF,lineHeight:1,marginBottom:10}}>,,</div>
-          <p style={{fontFamily:SF,fontSize:"clamp(16px,2vw,21px)",color:"#fff",lineHeight:1.65,marginBottom:22,fontStyle:"italic"}}>
+        <div style={{background:C.g,display:"flex",flexDirection:"column",justifyContent:"center",padding:"clamp(32px,5vw,72px)",position:"relative",overflow:"hidden"}}>
+          {/* Decorative geo on quote bg */}
+          <div style={{position:"absolute",right:-40,top:-40,width:200,height:200,borderRadius:"50%",border:"1px solid rgba(255,255,255,.07)",pointerEvents:"none"}}/>
+          <div style={{position:"absolute",right:20,bottom:-60,width:140,height:140,borderRadius:"50%",border:"1px solid rgba(255,255,255,.05)",pointerEvents:"none"}}/>
+          <div style={{fontSize:56,color:"rgba(255,255,255,.15)",fontFamily:SF,lineHeight:.8,marginBottom:16,fontWeight:600,letterSpacing:"-.04em"}}>,,</div>
+          <p style={{fontFamily:SF,fontSize:"clamp(16px,2vw,21px)",color:"#fff",lineHeight:1.7,marginBottom:22,fontStyle:"italic",position:"relative",zIndex:1}}>
             Każdy ból ma swoją przyczynę. Naszym zadaniem jest ją znaleźć — i trwale wyeliminować, a nie tylko uśmierzyć.
           </p>
-          <div style={{fontSize:13,color:"rgba(255,255,255,.55)",letterSpacing:".04em"}}>— Zespół Ruch Manual</div>
+          <div style={{display:"flex",alignItems:"center",gap:12}}>
+            <div style={{width:28,height:1.5,background:"rgba(255,255,255,.3)",borderRadius:99}}/>
+            <div style={{fontSize:13,color:"rgba(255,255,255,.5)",letterSpacing:".04em"}}>Zespół Ruch Manual</div>
+          </div>
         </div>
       </div>
 
@@ -469,31 +659,43 @@ export default function RuchManual() {
             <h2 style={{fontFamily:SF,fontSize:"clamp(30px,4vw,44px)",fontWeight:600,color:C.ch,letterSpacing:"-.02em"}}>Terapeuci</h2>
           </div>
 
-          <div id="th-grid" className="fade-in" style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:20,alignItems:"stretch"}}>
-            {TH.map(th=>(
-              <div key={th.id} style={{background:C.cr,borderRadius:22,overflow:"hidden",border:`0.5px solid ${C.bd}`,display:"flex",flexDirection:"column"}}>
-                {/* Photo header */}
-                <div style={{height:220,overflow:"hidden",position:"relative",flexShrink:0}}>
-                  <img src={th.photo} alt={th.name} className="photo-img"
-                    style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"center top",filter:"brightness(.88) saturate(1.05)"}}/>
-                  <div style={{position:"absolute",inset:0,background:"linear-gradient(to bottom,transparent 45%,rgba(13,84,66,.6))",pointerEvents:"none"}}/>
-                  <div style={{position:"absolute",bottom:14,left:18}}>
-                    <div style={{fontFamily:SF,fontSize:17,fontWeight:600,color:"#fff"}}>{th.name}</div>
-                    <div style={{fontSize:11,color:"rgba(255,255,255,.7)",fontWeight:500}}>{th.title}</div>
+          <div id="th-grid" style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:20,alignItems:"stretch"}}>
+            {TH.map((th,i)=>(
+              <div key={th.id} className={`th-card d${i+1}`} style={{perspective:900}}>
+                <div className="th-card-inner" style={{background:C.cr,borderRadius:22,overflow:"hidden",border:`0.5px solid ${C.bd}`,display:"flex",flexDirection:"column",boxShadow:"0 4px 24px rgba(13,84,66,.07)"}}>
+                  {/* Photo header */}
+                  <div style={{height:220,overflow:"hidden",position:"relative",flexShrink:0}}>
+                    <img src={th.photo} alt={th.name} className="photo-img"
+                      style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"center top",filter:"brightness(.88) saturate(1.05)"}}/>
+                    <div style={{position:"absolute",inset:0,background:"linear-gradient(to bottom,transparent 40%,rgba(13,84,66,.7))",pointerEvents:"none"}}/>
+                    {/* Hover overlay */}
+                    <div className="th-photo-overlay" style={{position:"absolute",inset:0,background:"rgba(13,84,66,.55)",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                      <div style={{fontSize:12,fontWeight:700,color:"rgba(255,255,255,.9)",letterSpacing:".06em",textTransform:"uppercase",border:"1.5px solid rgba(255,255,255,.5)",padding:"8px 18px",borderRadius:99}}>
+                        Zarezerwuj wizytę →
+                      </div>
+                    </div>
+                    <div style={{position:"absolute",bottom:14,left:18}}>
+                      <div style={{fontFamily:SF,fontSize:17,fontWeight:600,color:"#fff"}}>{th.name}</div>
+                      <div style={{fontSize:11,color:"rgba(255,255,255,.7)",fontWeight:500}}>{th.title}</div>
+                    </div>
+                    {/* Initials badge */}
+                    <div style={{position:"absolute",top:14,right:14,width:36,height:36,borderRadius:"50%",background:th.bg,display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,fontWeight:800,color:th.fg,border:"2px solid rgba(255,255,255,.3)"}}>
+                      {th.in}
+                    </div>
                   </div>
-                </div>
-                {/* Content — flex:1 makes all cards same height */}
-                <div style={{padding:"20px 22px 24px",display:"flex",flexDirection:"column",flex:1}}>
-                  <div style={{fontSize:13,color:C.mu,lineHeight:1.7,flex:1,marginBottom:16}}>{th.bio}</div>
-                  <div style={{display:"flex",flexWrap:"wrap",gap:5,marginBottom:16}}>
-                    {th.tags.map(t=>(
-                      <span key={t} style={{fontSize:11,fontWeight:600,padding:"3px 10px",borderRadius:99,background:C.gp,color:C.g}}>{t}</span>
-                    ))}
+                  {/* Content */}
+                  <div style={{padding:"20px 22px 24px",display:"flex",flexDirection:"column",flex:1}}>
+                    <div style={{fontSize:13,color:C.mu,lineHeight:1.7,flex:1,marginBottom:16}}>{th.bio}</div>
+                    <div style={{display:"flex",flexWrap:"wrap",gap:5,marginBottom:16}}>
+                      {th.tags.map(t=>(
+                        <span key={t} style={{fontSize:11,fontWeight:600,padding:"3px 10px",borderRadius:99,background:C.gp,color:C.g,transition:"all .15s"}}>{t}</span>
+                      ))}
+                    </div>
+                    <button className="rm-btn" onClick={()=>openBook(null,th.id)}
+                      style={{width:"100%",padding:"10px",background:"transparent",color:C.g,border:`1.5px solid ${C.g}`,borderRadius:9,fontSize:13,fontWeight:700,marginTop:"auto"}}>
+                      Zarezerwuj u {th.name.split(" ")[0]}
+                    </button>
                   </div>
-                  <button className="rm-btn" onClick={()=>openBook(null,th.id)}
-                    style={{width:"100%",padding:"10px",background:"transparent",color:C.g,border:`1.5px solid ${C.g}`,borderRadius:9,fontSize:13,fontWeight:700,cursor:"pointer",marginTop:"auto"}}>
-                    Zarezerwuj u {th.name.split(" ")[0]}
-                  </button>
                 </div>
               </div>
             ))}
@@ -502,12 +704,19 @@ export default function RuchManual() {
       </section>
 
       {/* ══ CTA ═════════════════════════════════════════════════ */}
-      <section style={{padding:"80px clamp(16px,4vw,56px)",background:`linear-gradient(135deg,${C.g} 0%,#0A3D30 100%)`,position:"relative",overflow:"hidden"}}>
-        <div style={{position:"absolute",right:-100,top:-100,width:420,height:420,borderRadius:"50%",border:"1px solid rgba(255,255,255,.05)",pointerEvents:"none"}}/>
-        <div style={{maxWidth:640,margin:"0 auto",textAlign:"center",position:"relative"}}>
-          <h2 style={{fontFamily:SF,fontSize:"clamp(26px,4vw,38px)",fontWeight:600,color:"#fff",marginBottom:14,letterSpacing:"-.02em"}}>Zacznij od jednego kliknięcia</h2>
-          <p style={{fontSize:16,color:"rgba(255,255,255,.72)",lineHeight:1.7,marginBottom:34}}>Użyj interaktywnej mapy ciała, aby znaleźć dopasowaną usługę. Rezerwacja online w 2 minuty — bez kolejek.</p>
-          <button className="rm-btn" onClick={()=>openBook()} style={{background:C.au,color:"#fff",borderRadius:12,padding:"14px 40px",fontSize:15,fontWeight:700,cursor:"pointer",display:"inline-flex",alignItems:"center",gap:9,boxShadow:"0 4px 24px rgba(200,150,60,.4)"}}>
+      <section style={{padding:"88px clamp(16px,4vw,56px)",background:`linear-gradient(135deg,#0A3D30 0%,${C.g} 50%,#0A3D30 100%)`,backgroundSize:"200% 200%",animation:"gradShift 10s ease infinite",position:"relative",overflow:"hidden"}}>
+        <div className="grain" style={{position:"absolute",inset:0,pointerEvents:"none",zIndex:0}}/>
+        {/* Geo shapes */}
+        <div style={{position:"absolute",right:-80,top:-80,width:380,height:380,borderRadius:"50%",border:"1px solid rgba(255,255,255,.06)",pointerEvents:"none"}}/>
+        <div style={{position:"absolute",left:-60,bottom:-60,width:260,height:260,borderRadius:"50%",border:"1px solid rgba(255,255,255,.04)",pointerEvents:"none"}}/>
+        <div style={{position:"absolute",right:"20%",bottom:"-10%",width:160,height:160,background:"radial-gradient(circle,rgba(200,150,60,.18),transparent)",borderRadius:"50%",filter:"blur(32px)",pointerEvents:"none"}}/>
+        <div style={{maxWidth:640,margin:"0 auto",textAlign:"center",position:"relative",zIndex:1}}>
+          <div style={{display:"inline-block",padding:"4px 14px",borderRadius:99,border:"1px solid rgba(255,255,255,.2)",fontSize:11,fontWeight:700,color:"rgba(255,255,255,.6)",letterSpacing:".1em",textTransform:"uppercase",marginBottom:20}}>
+            Rezerwacja online
+          </div>
+          <h2 style={{fontFamily:SF,fontSize:"clamp(26px,4vw,42px)",fontWeight:600,color:"#fff",marginBottom:14,letterSpacing:"-.02em",lineHeight:1.15}}>Zacznij od jednego<br/>kliknięcia</h2>
+          <p style={{fontSize:16,color:"rgba(255,255,255,.68)",lineHeight:1.7,marginBottom:36}}>Użyj interaktywnej mapy ciała, aby znaleźć dopasowaną usługę. Rezerwacja online w 2 minuty — bez kolejek.</p>
+          <button className="rm-btn gold-btn" onClick={()=>openBook()} style={{background:C.au,color:"#fff",borderRadius:12,padding:"15px 44px",fontSize:15,fontWeight:700,display:"inline-flex",alignItems:"center",gap:9,boxShadow:"0 6px 28px rgba(200,150,60,.4)"}}>
             Umów wizytę online <ArrowRight size={16}/>
           </button>
         </div>
@@ -518,7 +727,7 @@ export default function RuchManual() {
         <div style={{maxWidth:1140,margin:"0 auto"}}>
           <div style={{display:"grid",gridTemplateColumns:"2fr 1fr 1fr",gap:"clamp(32px,6vw,72px)",marginBottom:48}}>
             <div>
-              <div style={{display:"flex",alignItems:"center",gap:11,marginBottom:18,cursor:"pointer"}} onClick={()=>window.scrollTo({top:0,behavior:"smooth"})}>
+              <div style={{display:"flex",alignItems:"center",gap:11,marginBottom:18,cursor:"none"}} onClick={()=>window.scrollTo({top:0,behavior:"smooth"})}>
                 <img src={IMG_LOGO} alt="Ruch Manual" style={{height:38,width:"auto",objectFit:"contain",filter:"brightness(0) invert(1) sepia(1) saturate(0) hue-rotate(0deg)"}}/>
               </div>
               <p style={{fontSize:13,lineHeight:1.8,maxWidth:300,marginBottom:22}}>Gabinet fizjoterapii premium w centrum Krakowa. Specjalizujemy się w fizjoterapii manualnej, rehabilitacji i terapii sportowej.</p>
@@ -532,7 +741,7 @@ export default function RuchManual() {
               <div style={{fontSize:11,fontWeight:700,letterSpacing:".1em",textTransform:"uppercase",color:"#fff",marginBottom:18}}>Usługi</div>
               {SVCS.map(s=>(
                 <div key={s.id} onClick={()=>openBook(s.id)}
-                  style={{fontSize:13,marginBottom:9,cursor:"pointer",transition:"color .15s"}}
+                  style={{fontSize:13,marginBottom:9,cursor:"none",transition:"color .15s"}}
                   onMouseEnter={e=>e.target.style.color="#fff"} onMouseLeave={e=>e.target.style.color=""}>
                   {s.name}
                 </div>
@@ -570,7 +779,7 @@ export default function RuchManual() {
                 <div style={{fontFamily:SF,fontSize:22,fontWeight:600,color:C.ch}}>{done?"Rezerwacja potwierdzona":"Umów wizytę"}</div>
                 {!done && <div style={{fontSize:12,color:C.mu,marginTop:2}}>Krok {Math.min(step,4)} z 4</div>}
               </div>
-              <button onClick={closeBook} style={{background:"none",border:"none",cursor:"pointer",color:C.mu,lineHeight:1}}><X size={20}/></button>
+              <button onClick={closeBook} style={{background:"none",border:"none",cursor:"none",color:C.mu,lineHeight:1}}><X size={20}/></button>
             </div>
 
             {!done && (
@@ -587,7 +796,7 @@ export default function RuchManual() {
                 <div style={{display:"flex",flexDirection:"column",gap:7}}>
                   {scored.map(svc=>(
                     <div key={svc.id} onClick={()=>{setSelSvc(svc.id);setStep(2)}}
-                      style={{padding:"11px 15px",borderRadius:11,cursor:"pointer",border:`1.5px solid ${selSvc===svc.id?C.g:C.bd}`,background:selSvc===svc.id?C.gp:"#fff",display:"flex",justifyContent:"space-between",alignItems:"center",transition:"all .14s"}}>
+                      style={{padding:"11px 15px",borderRadius:11,cursor:"none",border:`1.5px solid ${selSvc===svc.id?C.g:C.bd}`,background:selSvc===svc.id?C.gp:"#fff",display:"flex",justifyContent:"space-between",alignItems:"center",transition:"all .14s"}}>
                       <div style={{display:"flex",alignItems:"center",gap:10}}>
                         <div style={{width:32,height:32,borderRadius:8,background:C.gp,display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,fontWeight:800,color:C.g,fontFamily:SF}}>{svc.abbr}</div>
                         <div>
@@ -610,7 +819,7 @@ export default function RuchManual() {
                 <div style={{display:"flex",flexDirection:"column",gap:8}}>
                   {thForSvc.map(th=>(
                     <div key={th.id} onClick={()=>{setSelTh(th.id);setStep(3)}}
-                      style={{padding:"12px 15px",borderRadius:11,cursor:"pointer",border:`1.5px solid ${selTh===th.id?C.g:C.bd}`,background:selTh===th.id?C.gp:"#fff",display:"flex",alignItems:"center",gap:12,transition:"all .14s"}}>
+                      style={{padding:"12px 15px",borderRadius:11,cursor:"none",border:`1.5px solid ${selTh===th.id?C.g:C.bd}`,background:selTh===th.id?C.gp:"#fff",display:"flex",alignItems:"center",gap:12,transition:"all .14s"}}>
                       <div style={{width:44,height:44,borderRadius:"50%",background:th.bg,display:"flex",alignItems:"center",justifyContent:"center",fontFamily:SF,fontWeight:700,fontSize:15,color:th.fg,flexShrink:0}}>{th.in}</div>
                       <div>
                         <div style={{fontSize:14,fontWeight:700,color:C.ch,fontFamily:SF}}>{th.name}</div>
@@ -619,7 +828,7 @@ export default function RuchManual() {
                     </div>
                   ))}
                 </div>
-                <button onClick={()=>setStep(1)} style={{marginTop:14,background:"none",border:"none",color:C.mu,fontSize:13,cursor:"pointer",display:"flex",alignItems:"center",gap:4}}><ChevronLeft size={14}/>Wróć</button>
+                <button onClick={()=>setStep(1)} style={{marginTop:14,background:"none",border:"none",color:C.mu,fontSize:13,cursor:"none",display:"flex",alignItems:"center",gap:4}}><ChevronLeft size={14}/>Wróć</button>
               </div>
             )}
 
@@ -630,7 +839,7 @@ export default function RuchManual() {
                 <div style={{display:"flex",gap:6,marginBottom:16,flexWrap:"wrap"}}>
                   {DAYS.map((d,i)=>(
                     <button key={d} onClick={()=>{setSelDay(i);setSelSlot(null)}}
-                      style={{padding:"7px 13px",borderRadius:9,fontSize:12,cursor:"pointer",fontWeight:selDay===i?700:400,background:selDay===i?C.g:"transparent",color:selDay===i?"#fff":C.mu,border:`0.5px solid ${selDay===i?C.g:C.bd}`,transition:"all .14s"}}>{d}</button>
+                      style={{padding:"7px 13px",borderRadius:9,fontSize:12,cursor:"none",fontWeight:selDay===i?700:400,background:selDay===i?C.g:"transparent",color:selDay===i?"#fff":C.mu,border:`0.5px solid ${selDay===i?C.g:C.bd}`,transition:"all .14s"}}>{d}</button>
                   ))}
                 </div>
                 <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:6}}>
@@ -645,7 +854,7 @@ export default function RuchManual() {
                   })}
                 </div>
                 <div style={{display:"flex",justifyContent:"space-between",marginTop:20,alignItems:"center"}}>
-                  <button onClick={()=>setStep(2)} style={{background:"none",border:"none",color:C.mu,fontSize:13,cursor:"pointer",display:"flex",alignItems:"center",gap:4}}><ChevronLeft size={14}/>Wróć</button>
+                  <button onClick={()=>setStep(2)} style={{background:"none",border:"none",color:C.mu,fontSize:13,cursor:"none",display:"flex",alignItems:"center",gap:4}}><ChevronLeft size={14}/>Wróć</button>
                   <button onClick={()=>setStep(4)} disabled={!selSlot} className="rm-btn"
                     style={{padding:"9px 22px",borderRadius:9,fontSize:13,fontWeight:700,cursor:selSlot?"pointer":"not-allowed",background:selSlot?C.g:C.gp,color:selSlot?"#fff":C.mu,border:"none"}}>
                     Dane kontaktowe →
@@ -672,7 +881,7 @@ export default function RuchManual() {
                 </div>
                 <div style={{fontSize:11.5,color:C.mu,marginTop:9,lineHeight:1.65}}>Dane przetwarzane są zgodnie z RODO wyłącznie w celu realizacji rezerwacji.</div>
                 <div style={{display:"flex",justifyContent:"space-between",marginTop:18,alignItems:"center"}}>
-                  <button onClick={()=>setStep(3)} style={{background:"none",border:"none",color:C.mu,fontSize:13,cursor:"pointer",display:"flex",alignItems:"center",gap:4}}><ChevronLeft size={14}/>Wróć</button>
+                  <button onClick={()=>setStep(3)} style={{background:"none",border:"none",color:C.mu,fontSize:13,cursor:"none",display:"flex",alignItems:"center",gap:4}}><ChevronLeft size={14}/>Wróć</button>
                   <button onClick={()=>setDone(true)} disabled={fName.length<3||fPhone.length<6} className="rm-btn"
                     style={{padding:"10px 26px",borderRadius:9,fontSize:13,fontWeight:700,background:fName.length>=3&&fPhone.length>=6?C.g:C.gp,color:fName.length>=3&&fPhone.length>=6?"#fff":C.mu,border:"none",cursor:fName.length>=3&&fPhone.length>=6?"pointer":"not-allowed"}}>
                     Potwierdź rezerwację
@@ -698,7 +907,7 @@ export default function RuchManual() {
                     <span style={{color:C.ch,fontWeight:600}}>{v}</span>
                   </div>
                 ))}
-                <button className="rm-btn" onClick={closeBook} style={{marginTop:20,padding:"11px 32px",background:C.g,color:"#fff",borderRadius:10,fontSize:13,fontWeight:700,cursor:"pointer",boxShadow:"0 4px 18px rgba(13,84,66,.28)"}}>Zamknij</button>
+                <button className="rm-btn" onClick={closeBook} style={{marginTop:20,padding:"11px 32px",background:C.g,color:"#fff",borderRadius:10,fontSize:13,fontWeight:700,cursor:"none",boxShadow:"0 4px 18px rgba(13,84,66,.28)"}}>Zamknij</button>
               </div>
             )}
           </div>
