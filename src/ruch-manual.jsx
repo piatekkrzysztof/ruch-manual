@@ -6,36 +6,26 @@ import IMG_THERAPY from "./assets/therapy.jpg"
 import IMG_REHAB from "./assets/rehab.jpg"
 import IMG_LOGO from "./assets/logo.svg"
 import IMG_PLATE from "./assets/found/dagoty-posterior.jpg"
-import IMG_NECK from "./assets/found/dagoty-neck.jpg"
 import IMG_STREET from "./assets/found/karmelicka.jpg"
-
-const PLATE_RATIO = 2665 / 2000
-const NECK_RATIO = 1410 / 1000
 
 const SVCS = [
   {id:"fizjo",  group:"manual", name:"Fizjoterapia manualna", dur:50, price:180,
     desc:"Mobilizacja stawów kręgosłupa i kończyn metodą Kaltenborna-Evjentha, praca na tkankach miękkich.",
-    crop:{img:"plate", x:.39, y:.40, s:3.4},
     map:{head:1,shoulder_l:3,upper_back:3,lower_back:3,hip_l:2,knee_l:2}},
   {id:"masaz",  group:"manual", name:"Masaż leczniczy", dur:60, price:150,
     desc:"Głęboki masaż mięśniowo-powięziowy, który zmniejsza napięcie i przywraca zakres ruchu.",
-    crop:{img:"plate", x:.40, y:.29, s:3},
     map:{shoulder_l:2,upper_back:3,lower_back:3,hip_l:1,head:1}},
   {id:"iglo",   group:"manual", name:"Suche igłowanie", dur:45, price:130,
     desc:"Dezaktywacja mięśniowych punktów spustowych igłami akupunkturowymi.",
-    crop:{img:"neck", x:.50, y:.52, s:2},
     map:{lower_back:3,upper_back:2,shoulder_l:2,hip_l:1,head:2}},
   {id:"rehab",  group:"rehab", name:"Rehabilitacja pooperacyjna", dur:60, price:200,
     desc:"Powrót do sprawności po zabiegach ortopedycznych kolana, biodra i kręgosłupa.",
-    crop:{img:"plate", x:.34, y:.45, s:3.4},
     map:{knee_l:3,hip_l:3,ankle_l:2,lower_back:1}},
   {id:"kinezjo",group:"rehab", name:"Kinesiotaping", dur:30, price:100,
     desc:"Taśmowanie funkcjonalne, które stabilizuje staw i odciąża przeciążone mięśnie.",
-    crop:{img:"plate", x:.355, y:.70, s:3.4},
     map:{knee_l:3,ankle_l:3,shoulder_l:2}},
   {id:"dno",    group:"rehab", name:"Terapia dna miednicy", dur:50, price:160,
     desc:"Terapia mięśni głębokich miednicy, w tym po porodzie i przy bólu krzyża.",
-    crop:{img:"plate", x:.39, y:.47, s:3},
     map:{hip_l:2,lower_back:1}},
 ]
 
@@ -88,20 +78,22 @@ const NAV = [["Gdzie boli","gdzie-boli"],["Cennik","cennik"],["Zespół","zespol
 
 const CREDITS = [
   ["Arnauld Éloi Gautier d'Agoty, Posterior View of Muscle Man, 1773","domena publiczna (CC0), Art Institute of Chicago","https://www.artic.edu/artworks/149518"],
-  ["Jacques Fabien Gautier d'Agoty, Neck and Face Muscles, 1746","domena publiczna (CC0), Art Institute of Chicago","https://www.artic.edu/artworks/149493"],
   ["Igor123121, Karmelicka street, view to S, 2025","CC BY 4.0, Wikimedia Commons","https://commons.wikimedia.org/wiki/File:Karmelicka_street,_view_to_S,_2025,_Krak%C3%B3w,_Poland.jpg"],
   ["Reiseandenken, Tram in Krakow (wideo)","CC BY 3.0, Wikimedia Commons","https://commons.wikimedia.org/wiki/File:Tram_in_Krakow_(Full_HD_Video).webm"],
 ]
 
-// Kadr fragmentu ryciny jako tło kwadratowego kafelka: punkt (x, y) ląduje na środku
-function cropStyle({img,x,y,s}) {
-  const ratio = img === "neck" ? NECK_RATIO : PLATE_RATIO
-  const sy = s * ratio
-  return {
-    backgroundImage:`url(${img === "neck" ? IMG_NECK : IMG_PLATE})`,
-    backgroundSize:`${s*100}% auto`,
-    backgroundPosition:`${((x*s-.5)/(s-1))*100}% ${((y*sy-.5)/(sy-1))*100}%`,
-  }
+// Tarcza czasu wizyty: wycinek godziny, jak goniometr dla stawu
+function Dial({min}) {
+  const a = min / 60 * 360
+  if(a >= 360) return <svg className="dial" viewBox="-50 -50 100 100" aria-hidden="true"><circle r="50" className="dial-fill"/></svg>
+  const rad = (a - 90) * Math.PI / 180
+  const d = `M0 0V-50A50 50 0 ${a > 180 ? 1 : 0} 1 ${(50*Math.cos(rad)).toFixed(2)} ${(50*Math.sin(rad)).toFixed(2)}Z`
+  return (
+    <svg className="dial" viewBox="-50 -50 100 100" aria-hidden="true">
+      <circle r="50" className="dial-track"/>
+      <path d={d} className="dial-fill"/>
+    </svg>
+  )
 }
 
 // Wycinek koła jako wielokąt clip-path, w procentach pudełka tarczy
@@ -119,7 +111,7 @@ const HERO_FROM = 180, HERO_TO = 315
 const CSS = `
   .rm{
     --bg:#edccbe;--surface:#e8c2b2;--ink:#351a2b;--muted:#6c4857;
-    --on-ink:#edccbe;--on-ink-muted:#c49aa6;--ink-2:#4f2a41;--card-field:#f4ddd3;--err:#9b1c2e;
+    --on-ink:#edccbe;--track:#d9a99b;--on-ink-muted:#c49aa6;--ink-2:#4f2a41;--card-field:#f4ddd3;--err:#9b1c2e;
     --t1:#351a2b;--t2:#4f2a41;--t3:#6c4857;--t4:#c99fa6;
     --font:"Hanken Grotesk",system-ui,"Segoe UI",sans-serif;
     --step-small:clamp(.8125rem,.79rem + .1vw,.875rem);
@@ -223,13 +215,15 @@ const CSS = `
   .cats{display:grid;grid-template-columns:1fr 1fr;gap:0 64px}
   .items{display:grid;gap:36px;list-style:none}
   .item{display:grid;grid-template-columns:64px minmax(0,1fr);gap:20px;align-items:start;width:100%;padding:0;border:0;background:none;color:inherit;font:inherit;text-align:left;cursor:pointer}
-  .tile{width:64px;height:64px;border-top-right-radius:100%;background-color:var(--surface);transition:transform .3s var(--ease-out)}
+  .dial{width:64px;height:64px;transition:transform .45s var(--ease-out)}
+  .dial-track{fill:var(--track)}
+  .dial-fill{fill:var(--ink)}
   .item-top{display:flex;justify-content:space-between;align-items:baseline;gap:16px;font-weight:500;margin-bottom:4px}
   .item-top .nm{text-decoration:underline;text-decoration-color:transparent;text-underline-offset:.22em;text-decoration-thickness:.08em;transition:text-decoration-color .2s}
   .item p{max-width:42ch;margin-bottom:6px}
   .item .dur{color:var(--muted);font-size:var(--step-small)}
-  .item:active .tile{transform:scale(.94)}
-  @media (hover:hover) and (pointer:fine){.item:hover .tile{transform:scale(1.08)}.item:hover .nm{text-decoration-color:currentColor}}
+  .item:active .dial{transform:scale(.94)}
+  @media (hover:hover) and (pointer:fine){.item:hover .dial{transform:rotate(30deg)}.item:hover .nm{text-decoration-color:currentColor}}
 
   /* Pierwsza wizyta */
   .visit{padding:calc(var(--gap-section) * .5) var(--m) var(--gap-section)}
@@ -595,7 +589,7 @@ export default function RuchManual() {
                   {list.map((s,i) => (
                     <li key={s.id} className="rv" style={{"--i":i}}>
                       <button className="item" onClick={()=>book({svc:s.id})} aria-label={`${s.name}, ${s.price} zł, ${s.dur} minut. Umów wizytę`}>
-                        <span className="tile" style={cropStyle(s.crop)} aria-hidden="true"/>
+                        <Dial min={s.dur}/>
                         <span>
                           <span className="item-top"><span className="nm">{s.name}</span><span>{s.price} zł</span></span>
                           <p>{s.desc}</p>

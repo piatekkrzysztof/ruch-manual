@@ -43,7 +43,6 @@ Pozostałe skrypty:
 Ryciny i wideo pochodzą z otwartych zbiorów i są podpisane w stopce strony. Pełne dane (autor, licencja, źródło) są w `src/assets/found/credits.json` i `public/media/credits.json`.
 
 - Arnauld Éloi Gautier d'Agoty, *Posterior View of Muscle Man* (1773) - domena publiczna (CC0), Art Institute of Chicago
-- Jacques Fabien Gautier d'Agoty, *Neck and Face Muscles* (1746) - domena publiczna (CC0), Art Institute of Chicago
 - Igor123121, *Karmelicka street, view to S* (2025) - CC BY 4.0, Wikimedia Commons
 - Reiseandenken, *Tram in Krakow* (wideo, przycięty fragment bez dźwięku) - CC BY 3.0, Wikimedia Commons
 
