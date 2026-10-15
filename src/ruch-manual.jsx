@@ -110,9 +110,9 @@ const HERO_FROM = 180, HERO_TO = 315
 
 const CSS = `
   .rm{
-    --bg:#edccbe;--surface:#e8c2b2;--ink:#351a2b;--muted:#6c4857;
-    --on-ink:#edccbe;--track:#d9a99b;--on-ink-muted:#c49aa6;--ink-2:#4f2a41;--card-field:#f4ddd3;--err:#9b1c2e;
-    --t1:#351a2b;--t2:#4f2a41;--t3:#6c4857;--t4:#c99fa6;
+    --bg:#dce6df;--surface:#cfdcd3;--ink:#0b3a2e;--muted:#3e5c51;
+    --on-ink:#dce6df;--track:#bccfc3;--on-ink-muted:#9cc0b0;--ink-2:#145140;--card-field:#edf3ef;--err:#a3271c;
+    --t1:#0b3a2e;--t2:#145140;--t3:#2a6b56;--t4:#9cc0b0;
     --font:"Hanken Grotesk",system-ui,"Segoe UI",sans-serif;
     --step-small:clamp(.8125rem,.79rem + .1vw,.875rem);
     --step-body:clamp(1.0625rem,1rem + .25vw,1.1875rem);
@@ -137,6 +137,8 @@ const CSS = `
   .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
   .skip{position:fixed;left:var(--m);top:-80px;z-index:var(--z-skip);padding:12px 18px;background:var(--ink);color:var(--on-ink);text-decoration:none;transition:top .2s}
   .skip:focus{top:12px}
+
+
 
   /* Motyw: ćwiartka koła. Ten sam łuk tnie przyciski, zdjęcia i punktory. */
   .q{border-top-right-radius:100%;overflow:hidden}
