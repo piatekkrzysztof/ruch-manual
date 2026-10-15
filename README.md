@@ -1,16 +1,38 @@
-# React + Vite
+# Ruch Manual
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Demonstracyjna strona gabinetu fizjoterapii manualnej w Krakowie - projekt do portfolio.
 
-Currently, two official plugins are available:
+**Na żywo:** https://ruch-manual.krzysztof-227.workers.dev/
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Co potrafi
 
-## React Compiler
+- **Mapa ciała** - użytkownik zaznacza obszary bólu na figurze (myszą lub klawiaturą), a usługi układają się według dopasowania.
+- **Rezerwacja w 4 krokach** - usługa, terapeuta, termin i dane kontaktowe, z walidacją formularza. Terminy to zawsze najbliższe trzy dni robocze.
+- **Responsywność** - menu mobilne, rezerwacja jako panel wysuwany od dołu na telefonie.
+- **Dostępność** - semantyczny HTML, widoczny fokus, link „Przejdź do treści”, obsługa `prefers-reduced-motion`.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Rezerwacja działa tylko po stronie przeglądarki - dane nie są nigdzie wysyłane.
 
-## Expanding the ESLint configuration
+## Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- React 19 + Vite
+- Ikony: lucide-react
+- Fonty: Fraunces i Geist (Google Fonts)
+- Hosting: Cloudflare Workers (statyczne pliki), deploy automatyczny po pushu na `main`
+
+## Uruchomienie lokalne
+
+```bash
+npm install
+```
+
+```bash
+npm run dev
+```
+
+Pozostałe skrypty:
+
+- `npm run build` - build produkcyjny do `dist/`
+- `npm run lint` - ESLint
+- `npm run preview` - build i lokalny podgląd w środowisku Cloudflare
+- `npm run deploy` - ręczny deploy przez Wrangler

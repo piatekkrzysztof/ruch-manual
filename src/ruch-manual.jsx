@@ -951,7 +951,7 @@ export default function RuchManual() {
               ))}
               <div className="stack">
                 <div className="stack-l">Tech stack</div>
-                <div className="stack-v">Next.js 15 · Supabase<br/>TypeScript · Tailwind</div>
+                <div className="stack-v">React 19 · Vite<br/>Cloudflare Workers</div>
               </div>
             </div>
           </div>
