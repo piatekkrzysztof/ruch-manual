@@ -1,0 +1,26 @@
+[
+ {
+  "file": "public/media/tram-krakow.webm",
+  "media": "video",
+  "poster": "public/media/tram-krakow-poster.jpg",
+  "ref": "commons:79501257",
+  "title": "Tram in Krakow (Full HD Video)",
+  "creator": "Reiseandenken",
+  "creatorUrl": null,
+  "date": "2011-08-08",
+  "license": "CC BY 3.0",
+  "licenseCode": "by",
+  "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+  "creditRequired": true,
+  "page": "https://commons.wikimedia.org/wiki/File:Tram_in_Krakow_(Full_HD_Video).webm",
+  "via": "Wikimedia Commons",
+  "video": "https://upload.wikimedia.org/wikipedia/commons/transcoded/a/a1/Tram_in_Krakow_%28Full_HD_Video%29.webm/Tram_in_Krakow_%28Full_HD_Video%29.webm.480p.vp9.webm",
+  "width": 854,
+  "height": 480,
+  "duration": 35.8,
+  "bytes": 5893013,
+  "credit": "\"Tram in Krakow (Full HD Video)\" by Reiseandenken, CC BY 3.0, via Wikimedia Commons",
+  "notes": [],
+  "saved": "2026-10-15T08:27:54.315Z"
+ }
+]
