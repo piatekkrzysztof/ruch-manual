@@ -307,7 +307,7 @@ const CSS = `
   .route-pics{grid-column:6/13;position:relative;padding-bottom:10%}
   .route-street{width:100%;aspect-ratio:16/9;object-fit:cover;border-top-right-radius:100% 60%}
   .route-tram{position:absolute;left:-12%;bottom:0;width:42%;aspect-ratio:1;border-top-right-radius:100%;overflow:hidden;background:var(--ink-2)}
-  .route-tram video{width:100%;height:100%;object-fit:cover;object-position:60% center}
+  .route-tram video{width:100%;height:100%;object-fit:cover;object-position:32% center}
 
   /* Stopka */
   .foot{padding:96px var(--m) 32px}
@@ -451,15 +451,9 @@ export default function RuchManual() {
   useEffect(() => {
     const v = videoRef.current
     if(!v || !window.matchMedia("(prefers-reduced-motion:no-preference)").matches) return
-    // Klip zaczyna się od czerni i kończy innym ujęciem: zapętlamy tylko tramwaj (2-15 s)
-    const A = 2, B = 15
-    const clamp = () => { if(v.currentTime < A || v.currentTime > B) v.currentTime = A }
-    v.addEventListener("timeupdate", clamp)
-    const obs = new IntersectionObserver(([e]) => {
-      if(e.isIntersecting){ if(v.currentTime < A) v.currentTime = A; v.play().catch(()=>{}) } else v.pause()
-    },{threshold:.2})
+    const obs = new IntersectionObserver(([e]) => { if(e.isIntersecting) v.play().catch(()=>{}); else v.pause() },{threshold:.2})
     obs.observe(v)
-    return () => { obs.disconnect(); v.removeEventListener("timeupdate", clamp) }
+    return () => obs.disconnect()
   },[])
 
   useEffect(() => {
@@ -746,8 +740,9 @@ export default function RuchManual() {
             <div className="route-pics rv" style={{"--i":1}}>
               <img className="route-street" src={IMG_STREET} alt="Ulica Karmelicka w Krakowie, widok na południe, tory tramwajowe i kamienice" width="1400" height="788" loading="lazy"/>
               <div className="route-tram">
-                <video ref={videoRef} muted loop playsInline preload="none" poster="/media/tram-krakow-poster.jpg" aria-label="Krakowski tramwaj na ulicy">
+                <video ref={videoRef} muted loop playsInline preload="metadata" poster="/media/tram-krakow-poster.jpg" aria-label="Krakowski tramwaj na ulicy">
                   <source src="/media/tram-krakow.webm" type="video/webm"/>
+                  <source src="/media/tram-krakow.mp4" type="video/mp4"/>
                 </video>
               </div>
             </div>

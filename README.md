@@ -45,6 +45,6 @@ Ryciny i wideo pochodzą z otwartych zbiorów i są podpisane w stopce strony. P
 - Arnauld Éloi Gautier d'Agoty, *Posterior View of Muscle Man* (1773) - domena publiczna (CC0), Art Institute of Chicago
 - Jacques Fabien Gautier d'Agoty, *Neck and Face Muscles* (1746) - domena publiczna (CC0), Art Institute of Chicago
 - Igor123121, *Karmelicka street, view to S* (2025) - CC BY 4.0, Wikimedia Commons
-- Reiseandenken, *Tram in Krakow* (wideo) - CC BY 3.0, Wikimedia Commons
+- Reiseandenken, *Tram in Krakow* (wideo, przycięty fragment bez dźwięku) - CC BY 3.0, Wikimedia Commons
 
 Zdjęcia w `src/assets/*.jpg` pochodzą z pierwotnej wersji projektu i w demo ilustrują fikcyjny gabinet i terapeutów.
